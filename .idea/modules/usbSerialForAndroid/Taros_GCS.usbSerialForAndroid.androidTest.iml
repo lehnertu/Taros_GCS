@@ -27,7 +27,9 @@
     <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/build/generated/res/resValues/androidTest/debug" />
     <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/build/generated/res/rs/androidTest/debug" />
     <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/build/generated/source/buildConfig/androidTest/debug" />
-    <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/src/androidTest" />
+    <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/src/androidTest">
+      <sourceFolder url="file://$MODULE_DIR$/../../../usbSerialForAndroid/src/androidTest/java" isTestSource="true" />
+    </content>
     <content url="file://$MODULE_DIR$/../../../usbSerialForAndroid/src/androidTestDebug" />
     <orderEntry type="jdk" jdkName="Android API 32 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

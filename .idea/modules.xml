@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Taros_GCS.iml" filepath="$PROJECT_DIR$/.idea/modules/Taros_GCS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Taros_GCS.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.main.iml" filepath="$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/usbSerialForAndroid/Taros_GCS.usbSerialForAndroid.unitTest.iml" />
+    </modules>
+  </component>
+</project>

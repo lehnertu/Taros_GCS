@@ -8,16 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 public class CommunicationsViewModel extends ViewModel {
 
-    private MutableLiveData<Integer> mIndex = new MutableLiveData<>();
-    private LiveData<String> mText = Transformations.map(mIndex, new Function<Integer, String>() {
-        @Override
-        public String apply(Integer input) {
-            return "serial port: " + input;
-        }
-    });
+    private MutableLiveData<String> mText = new MutableLiveData<>();
 
-    public void setIndex(int index) {
-        mIndex.setValue(index);
+    public void setText(String text) {
+        mText.setValue(text);
     }
 
     public LiveData<String> getText() {

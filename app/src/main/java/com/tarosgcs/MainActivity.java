@@ -1,5 +1,6 @@
 package com.tarosgcs;
 
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,19 +18,23 @@ import com.tarosgcs.LoRaTransceiver;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private UsbManager usbManager;
+    private LoRaTransceiver modem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        usbManager = (UsbManager) getSystemService(USB_SERVICE);
+        modem = new LoRaTransceiver(usbManager);
+
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // LoRaTransceiver is the communication port which is available
         // to all fragments via the sectionsPagerAdapter
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
-                this, getSupportFragmentManager(), new LoRaTransceiver());
+                this, getSupportFragmentManager(), modem);
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;

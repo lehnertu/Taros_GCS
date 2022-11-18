@@ -8,13 +8,20 @@ import androidx.lifecycle.ViewModel;
 
 public class CommunicationsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText = new MutableLiveData<>();
+    private MutableLiveData<String> messageText = new MutableLiveData<>();
+    private MutableLiveData<String> infoText = new MutableLiveData<>();
 
-    public void setText(String text) {
-        mText.setValue(text);
+    public void setMessage(String text) {
+        messageText.postValue(text);
+    }
+    public void setInfo(String text) {
+        infoText.setValue(text);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<String> getMessage() {
+        return messageText;
+    }
+    public LiveData<String> getInfo() {
+        return infoText;
     }
 }

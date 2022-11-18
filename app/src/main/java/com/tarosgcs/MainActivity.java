@@ -15,18 +15,21 @@ import android.view.View;
 import com.tarosgcs.ui.main.SectionsPagerAdapter;
 import com.tarosgcs.databinding.ActivityMainBinding;
 import com.tarosgcs.LoRaTransceiver;
+import com.tarosgcs.MessageHandler;
 
 public class MainActivity extends AppCompatActivity {
 
     private UsbManager usbManager;
     private LoRaTransceiver modem;
+    private MessageHandler messageHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         usbManager = (UsbManager) getSystemService(USB_SERVICE);
-        modem = new LoRaTransceiver(usbManager);
+        MessageHandler messageHandler = new MessageHandler();
+        modem = new LoRaTransceiver(usbManager, messageHandler);
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         // LoRaTransceiver is the communication port which is available
         // to all fragments via the sectionsPagerAdapter
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
-                this, getSupportFragmentManager(), modem);
+                this, getSupportFragmentManager(), modem, messageHandler);
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;

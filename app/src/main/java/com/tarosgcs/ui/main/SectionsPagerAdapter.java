@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 // import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.tarosgcs.LoRaTransceiver;
+import com.tarosgcs.MessageHandler;
 import com.tarosgcs.R;
 
 /**
@@ -19,21 +20,23 @@ import com.tarosgcs.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
+    private final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context mContext;
     private final LoRaTransceiver modem;
+    private final MessageHandler messageReceiver;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm, LoRaTransceiver tr) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm, LoRaTransceiver tr, MessageHandler handler) {
         super(fm);
         mContext = context;
         modem = tr;
+        messageReceiver = handler;
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         if (position == 1) {
-            return CommunicationsFragment.newInstance(modem);
+            return CommunicationsFragment.newInstance(modem, messageReceiver);
         } else {
             return PlaceholderFragment.newInstance(position + 1);
         }

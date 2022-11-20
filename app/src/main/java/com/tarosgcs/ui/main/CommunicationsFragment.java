@@ -5,8 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -16,7 +17,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tarosgcs.LoRaTransceiver;
 import com.tarosgcs.MessageHandler;
+import com.tarosgcs.R;
 import com.tarosgcs.databinding.CommunicationsFragmentBinding;
+import com.tarosgcs.databinding.CommunicationListviewBinding;
 
 /**
  * A fragment containing a view for the serial communication.
@@ -25,8 +28,13 @@ public class CommunicationsFragment extends Fragment {
 
     private CommunicationsViewModel viewModel;
     private CommunicationsFragmentBinding binding;
+    private CommunicationListviewBinding listviewBinding;
     private LoRaTransceiver modem;
     private MessageHandler messageReceiver;
+
+    // Array of strings...
+    ListView simpleList;
+    String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
 
     public static CommunicationsFragment newInstance(LoRaTransceiver tr, MessageHandler handler) {
         CommunicationsFragment fragment = new CommunicationsFragment();
@@ -54,6 +62,7 @@ public class CommunicationsFragment extends Fragment {
 
         binding = CommunicationsFragmentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        listviewBinding = CommunicationListviewBinding.inflate(inflater, container, false);
 
         final TextView messageView = binding.receivedMessages;
         viewModel.getMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -62,6 +71,16 @@ public class CommunicationsFragment extends Fragment {
                 messageView.setText(s);
             }
         });
+
+        final ListView simpleList = binding.simpleListView;
+        final TextView listTextView = listviewBinding.listTextView;
+
+        // The second parameter is resource id used to set the layout(xml file)
+        //      for list items in which you have a text view.
+        // The third parameter is textViewResourceId which is used
+        //      to set the id of TextView where you want to display the actual text.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.communication_listview, R.id.listTextView, countryList);
+        simpleList.setAdapter(arrayAdapter);
 
         final TextView textView = binding.deviceInfo;
         viewModel.getInfo().observe(getViewLifecycleOwner(), new Observer<String>() {

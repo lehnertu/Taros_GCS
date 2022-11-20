@@ -9,11 +9,28 @@
     android:orientation="horizontal"
     tools:context=".ui.main.CommunicationsFragment">
 
-    <TextView
-        android:id="@+id/receivedMessages"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/receivedMessages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/simpleListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#f00"
+            android:dividerHeight="2dp">
+        </ListView>
+
+    </LinearLayout>
 
     <Space
         android:layout_width="0dp"

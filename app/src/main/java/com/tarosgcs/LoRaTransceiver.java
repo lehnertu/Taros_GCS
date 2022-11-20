@@ -1,7 +1,6 @@
 package com.tarosgcs;
 
 import java.util.List;
-import java.util.Arrays;
 import java.io.IOException;
 
 import android.hardware.usb.UsbDevice;
@@ -11,9 +10,6 @@ import android.hardware.usb.UsbDeviceConnection;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
-
-// import com.tarosgcs.MessageHandler;
-import com.tarosgcs.MainActivity;
 
 public class LoRaTransceiver {
 
@@ -135,25 +131,10 @@ public class LoRaTransceiver {
             try {
                 port.open(usbConnection);
                 port.setParameters(115200, 8, 1, UsbSerialPort.PARITY_NONE);
-                // if(withIoManager) {
-                //     usbIoManager = new SerialInputOutputManager(usbSerialPort, this);
-                //     usbIoManager.start();
-                // }
                 connected = port.isOpen();
                 if (connected) {
                     info += "connected";
                 }
-                // check if we have some usable control lines
-                // try {
-                //     EnumSet<UsbSerialPort.ControlLine> controlLines = port.getControlLines();
-                //     if (controlLines.contains(UsbSerialPort.ControlLine.CTS)) {
-                //         info += "\nhave CTS";
-                //     }
-                //     if (controlLines.contains(UsbSerialPort.ControlLine.DTR)) {
-                //         info += "\nhave DTR";
-                //     }
-                // } catch (IOException ignored) {
-                // }
             } catch (Exception e) {
                 info += "connection failed: " + e.getMessage();
                 disconnect();
@@ -207,10 +188,38 @@ public class LoRaTransceiver {
         public void run() {
             while (running) {
                 count += 1;
-                String message = "message " +  count;
-                System.out.println("dummy thread "+message);
-                byte[] stringBytes = message.getBytes();
-                msgHandler.receive(stringBytes, stringBytes.length);
+                byte[] message = new byte[80];
+                int m_ptr = 0;
+                // "system" message type
+                message[0] = (byte) 0xcc;
+                message[1] = (byte) 0x81;
+                // message[2] = message size not yet known
+                m_ptr = 3;
+                // sender ID is put as a fixed length of 8 characters
+                String sender = "DUMMY   ";
+                for (int i = 0; i<8; i++) {
+                    message[m_ptr] = (byte) sender.charAt(i);
+                    m_ptr++;
+                }
+                // severity level : status report
+                message[m_ptr++] = (byte) 30;
+                // uint32_t time
+                int tint = 1000*count;
+                byte[] tbytes = HexDump.toByteArray(tint);
+                for(int i=0; i<4 ;i++) {
+                    message[m_ptr++] = tbytes[i];
+                }
+                String text = "all fine.";
+                for (int i = 0; i<text.length(); i++) {
+                    message[m_ptr] = (byte) text.charAt(i);
+                    m_ptr++;
+                }
+                // the message size is
+                // 2+1+8 bytes fixed information
+                // 1+4+text.length() variable information
+                message[2] = (byte) m_ptr;
+                System.out.println("dummy thread " + count + " size " + m_ptr);
+                msgHandler.receive(message, m_ptr);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {

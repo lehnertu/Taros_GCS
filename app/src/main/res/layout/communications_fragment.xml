@@ -21,14 +21,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/simpleListView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="#f00"
-            android:dividerHeight="2dp">
-        </ListView>
+            android:layout_height="0pt"
+            android:layout_weight="3" />
 
     </LinearLayout>
 

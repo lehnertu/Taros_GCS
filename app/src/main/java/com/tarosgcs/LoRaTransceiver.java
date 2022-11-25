@@ -218,7 +218,7 @@ public class LoRaTransceiver {
                 // 2+1+8 bytes fixed information
                 // 1+4+text.length() variable information
                 message[2] = (byte) m_ptr;
-                System.out.println("dummy thread " + count + " size " + m_ptr);
+                // System.out.println("dummy thread " + count + " size " + m_ptr);
                 msgHandler.receive(message, m_ptr);
                 try {
                     Thread.sleep(2000);

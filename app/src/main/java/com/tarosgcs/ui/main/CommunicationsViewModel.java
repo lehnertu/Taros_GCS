@@ -1,21 +1,41 @@
 package com.tarosgcs.ui.main;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
+
+import com.tarosgcs.SystemMessage;
+
+import java.util.ArrayList;
 
 public class CommunicationsViewModel extends ViewModel {
 
-    private MutableLiveData<String> messageText = new MutableLiveData<>();
-    private MutableLiveData<String> infoText = new MutableLiveData<>();
+    // TODO
+    // this class should not only hold the strings of the message and info display
+    // but also the whole list of messages
+    private MutableLiveData<String> messageText;
+    private MutableLiveData<String> infoText;
+    private MutableLiveData<ArrayList<SystemMessage>> allSystemMessages;
+
+    public CommunicationsViewModel() {
+        messageText = new MutableLiveData<>();
+        infoText = new MutableLiveData<>();
+        allSystemMessages = new MutableLiveData<>();
+        ArrayList<SystemMessage> startList = new ArrayList<SystemMessage>();
+        startList.add(new SystemMessage("GCS", 0, 100, "startup."));
+        allSystemMessages.setValue(startList);
+    }
 
     public void setMessage(String text) {
         messageText.postValue(text);
     }
     public void setInfo(String text) {
-        infoText.setValue(text);
+        infoText.postValue(text);
+    }
+    public void addSystemMessage(SystemMessage msg) {
+        ArrayList<SystemMessage> list = allSystemMessages.getValue();
+        list.add(0,msg);
+        allSystemMessages.postValue(list);
     }
 
     public LiveData<String> getMessage() {
@@ -24,4 +44,5 @@ public class CommunicationsViewModel extends ViewModel {
     public LiveData<String> getInfo() {
         return infoText;
     }
+    public LiveData<ArrayList<SystemMessage>> getMessages() { return allSystemMessages; }
 }

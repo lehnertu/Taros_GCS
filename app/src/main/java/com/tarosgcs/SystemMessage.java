@@ -47,13 +47,11 @@ public class SystemMessage {
                         long i3 = buffer[14] & 0xFF;
                         long i4 = buffer[15] & 0xFF;
                         time = (i1 << 24) + (i2 << 16) + (i3 << 8) + i4;
-                        text = "valid message at " + 0.001*time;
-                        text += " from " + sender + " : ";
                     }
                     // the rest is the text
                     if (len>16) {
                         byte[] slice = Arrays.copyOfRange(buffer, 16, len);
-                        text += new String(slice, StandardCharsets.UTF_8);
+                        text = new String(slice, StandardCharsets.UTF_8);
                     }
                 }
             }

@@ -9,36 +9,22 @@
     android:orientation="horizontal"
     tools:context=".ui.main.CommunicationsFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0pt"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="2">
-
-        <TextView
-            android:id="@+id/receivedMessages"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0pt"
-            android:layout_weight="3" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_marginEnd="20dp"
+        android:layout_weight="4" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0pt"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
 
         <TextView
             android:id="@+id/deviceInfo"
@@ -48,11 +34,7 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_weight="2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintTop_creator="1" />
+            android:layout_weight="2" />
 
         <Button
             android:id="@+id/buttonRefresh"

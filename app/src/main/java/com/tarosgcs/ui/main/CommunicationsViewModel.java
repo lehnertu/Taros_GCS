@@ -13,12 +13,10 @@ public class CommunicationsViewModel extends ViewModel {
     // TODO
     // this class should not only hold the strings of the message and info display
     // but also the whole list of messages
-    private MutableLiveData<String> messageText;
     private MutableLiveData<String> infoText;
     private MutableLiveData<ArrayList<SystemMessage>> allSystemMessages;
 
     public CommunicationsViewModel() {
-        messageText = new MutableLiveData<>();
         infoText = new MutableLiveData<>();
         allSystemMessages = new MutableLiveData<>();
         ArrayList<SystemMessage> startList = new ArrayList<SystemMessage>();
@@ -26,9 +24,6 @@ public class CommunicationsViewModel extends ViewModel {
         allSystemMessages.setValue(startList);
     }
 
-    public void setMessage(String text) {
-        messageText.postValue(text);
-    }
     public void setInfo(String text) {
         infoText.postValue(text);
     }
@@ -38,9 +33,6 @@ public class CommunicationsViewModel extends ViewModel {
         allSystemMessages.postValue(list);
     }
 
-    public LiveData<String> getMessage() {
-        return messageText;
-    }
     public LiveData<String> getInfo() {
         return infoText;
     }

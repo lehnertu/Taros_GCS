@@ -1,6 +1,7 @@
 package com.tarosgcs;
 
 import java.util.List;
+import java.util.Random;
 import java.io.IOException;
 
 import android.hardware.usb.UsbDevice;
@@ -10,6 +11,16 @@ import android.hardware.usb.UsbDeviceConnection;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
+
+/* INFO : message levels
+#define MSG_LEVEL_FATALERROR 1
+#define MSG_LEVEL_CRITICAL 3
+#define MSG_LEVEL_MILESTONE 5
+#define MSG_LEVEL_ERROR 8
+#define MSG_LEVEL_STATE_CHANGE 10
+#define MSG_LEVEL_WARNING 12
+#define MSG_LEVEL_STATUSREPORT 30
+*/
 
 public class LoRaTransceiver {
 
@@ -180,9 +191,11 @@ public class LoRaTransceiver {
     private class Dummy implements Runnable {
         private int count;
         private boolean running = true;
+        Random random;
         public Dummy() {
             count=0;
             System.out.println("dummy thread started");
+            random = new Random();
         }
         @Override
         public void run() {
@@ -201,8 +214,32 @@ public class LoRaTransceiver {
                     message[m_ptr] = (byte) sender.charAt(i);
                     m_ptr++;
                 }
-                // severity level : status report
-                message[m_ptr++] = (byte) 30;
+                // severity level : 5 random versions
+                int rnd = random.nextInt(8);
+                int level;
+                switch (rnd) {
+                    case 0:
+                        level = 1;      // MSG_LEVEL_FATALERROR
+                        break;
+                    case 1:
+                        level = 3;      // MSG_LEVEL_CRITICAL
+                        break;
+                    case 2:
+                        level = 5;      // MSG_LEVEL_MILESTONE
+                        break;
+                    case 3:
+                        level = 8;      // MSG_LEVEL_ERROR
+                        break;
+                    case 4:
+                        level = 10;     // MSG_LEVEL_STATE_CHANGE
+                        break;
+                    case 5:
+                        level = 12;     // MSG_LEVEL_WARNING
+                        break;
+                    default:
+                        level = 30;     // MSG_LEVEL_STATUSREPORT
+                }
+                message[m_ptr++] = (byte) level;
                 // uint32_t time
                 int tint = 1000*count;
                 byte[] tbytes = HexDump.toByteArray(tint);

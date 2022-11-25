@@ -62,13 +62,6 @@ public class CommunicationsFragment extends Fragment {
         messageReceiver.setViewModel(viewModel);
         // initial update of the ViewModel data content
         viewModel.setInfo(modem.getInfo());
-        viewModel.setMessage(messageReceiver.getLastMessage());
-        // new for RecyclerView
-        // this has to change to use with a ViewModel
-        // setContentView(R.layout.activity_main);
-        // mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        // mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // mRecyclerView.setAdapter(new RVAdapter());
     }
 
     @Override
@@ -79,15 +72,6 @@ public class CommunicationsFragment extends Fragment {
         binding = CommunicationsFragmentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView messageView = binding.receivedMessages;
-        viewModel.getMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                messageView.setText(s);
-            }
-        });
-
-        // final RecyclerView  recyclerView = binding.recyclerView;
         mRecyclerView  = binding.recyclerView;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRVAdapter = new RVAdapter();
@@ -183,6 +167,8 @@ public class CommunicationsFragment extends Fragment {
     private class RVAdapter extends RecyclerView.Adapter {
 
         ArrayList<Integer> mColors;
+        ArrayList<String> mSenders;
+        ArrayList<String> mTimes;
         ArrayList<String> mStrings;
 
         public RVAdapter() {
@@ -194,7 +180,9 @@ public class CommunicationsFragment extends Fragment {
             final MyViewHolder myHolder = (MyViewHolder) holder;
             int color = mColors.get(position);
             myHolder.container.setBackgroundColor(color);
-            myHolder.textView.setText(mStrings.get(position));
+            myHolder.senderView.setText(mSenders.get(position));
+            myHolder.timeView.setText(mTimes.get(position));
+            myHolder.bodyView.setText(mStrings.get(position));
         }
 
         @Override
@@ -207,40 +195,69 @@ public class CommunicationsFragment extends Fragment {
             return new MyViewHolder(container);
         }
 
-        private int generateColor() {
-            int red = ((int) (Math.random() * 200));
-            int green = ((int) (Math.random() * 200));
-            int blue = ((int) (Math.random() * 200));
-            return Color.rgb(red, green, blue);
-        }
-
         public void generateData() {
             mColors = new ArrayList<>();
+            mSenders = new ArrayList<>();
+            mTimes = new ArrayList<>();
             mStrings = new ArrayList<>();
+            String levelString;
             ArrayList<SystemMessage> msgList = viewModel.getMessages().getValue();
             for (SystemMessage msg : msgList)
             {
-                mColors.add(generateColor());
-                mStrings.add(msg.text);
+                switch (msg.level) {
+                    case 1:     // MSG_LEVEL_FATALERROR
+                        levelString = "FATAL";
+                        mColors.add(Color.rgb(200, 0, 0));
+                        break;
+                    case 3:     // MSG_LEVEL_CRITICAL
+                        levelString = "CRITICAL";
+                        mColors.add(Color.rgb(255, 0, 0));
+                        break;
+                    case 5:     // MSG_LEVEL_MILESTONE
+                        levelString = "MILESTONE";
+                        mColors.add(Color.rgb(0, 200, 0));
+                        break;
+                    case 8:     // MSG_LEVEL_ERROR
+                        levelString = "ERROR";
+                        mColors.add(Color.rgb(255, 200, 200));
+                        break;
+                    case 10:    // MSG_LEVEL_STATE_CHANGE
+                        levelString = "STATE";
+                        mColors.add(Color.rgb(200, 255, 200));
+                        break;
+                    case 12:    // MSG_LEVEL_WARNING
+                        levelString = "WARN";
+                        mColors.add(Color.rgb(255, 255, 100));
+                        break;
+                    default:    // MSG_LEVEL_STATUSREPORT
+                        levelString = "REPORT";
+                        mColors.add(Color.rgb(210, 210, 210));
+                }
+                mSenders.add(msg.sender);
+                mTimes.add(String.format("%.1f", 0.001*msg.time));
+                mStrings.add(levelString + " : " + msg.text);
             }
             notifyDataSetChanged();
         }
-
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView senderView;
+        public TextView timeView;
+        public TextView bodyView;
         public LinearLayout container;
 
         public MyViewHolder(View v) {
             super(v);
             container = (LinearLayout) v;
-            textView = (TextView) v.findViewById(R.id.textview);
+            senderView = (TextView) v.findViewById(R.id.sender);
+            timeView = (TextView) v.findViewById(R.id.time);
+            bodyView = (TextView) v.findViewById(R.id.body);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " \"" + textView.getText() + "\"";
+            return super.toString() + " \"" + bodyView.getText() + "\"";
         }
     }
 
